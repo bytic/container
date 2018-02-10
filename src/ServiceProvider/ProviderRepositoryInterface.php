@@ -1,20 +1,19 @@
 <?php
 
-namespace Nip\Container\ServiceProviders;
+namespace Nip\Container\ServiceProvider;
 
 use Nip\Container\ContainerAwareInterface;
-use Nip\Container\ServiceProviders\Providers\AbstractServiceProvider;
 
 /**
- * Interface ServiceProviderAggregateInterface
- * @package Nip\Container\ServiceProvider
+ * Interface ServiceProviderAggregateInterface.
  */
 interface ProviderRepositoryInterface extends ContainerAwareInterface
 {
     /**
      * Add a service provider to the aggregate.
      *
-     * @param  string|AbstractServiceProvider $provider
+     * @param string|\Nip\Container\ServiceProvider\ServiceProviderInterface $provider
+     *
      * @return $this
      */
     public function add($provider);
@@ -22,16 +21,18 @@ interface ProviderRepositoryInterface extends ContainerAwareInterface
     /**
      * Determines whether a service is provided by the aggregate.
      *
-     * @param  string $service
-     * @return boolean
+     * @param string $service
+     *
+     * @return bool
      */
     public function provides($service);
 
     /**
      * Invokes the register method of a provider that provides a specific service.
      *
-     * @param  string $provider
+     * @param string $service
+     *
      * @return void
      */
-    public function registerProvider($provider);
+    public function register($service);
 }

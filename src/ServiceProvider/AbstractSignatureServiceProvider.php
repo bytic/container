@@ -1,14 +1,14 @@
 <?php
 
-namespace Nip\Container\ServiceProviders\Providers;
+namespace Nip\Container\ServiceProvider;
 
-use Nip\Container\ServiceProviders\Providers\SignatureServiceProviderInterface as SignatureInterface;
+use Nip\Container\ServiceProvider\AbstractServiceProvider as AbstractProvider;
+use Nip\Container\ServiceProvider\SignatureServiceProviderInterface as AbstractInterface;
 
 /**
- * Class AbstractSignatureServiceProvider
- * @package Nip\Container\ServiceProvider
+ * Class AbstractSignatureServiceProvider.
  */
-abstract class AbstractSignatureServiceProvider extends AbstractServiceProvider implements SignatureInterface
+abstract class AbstractSignatureServiceProvider extends AbstractProvider implements AbstractInterface
 {
     /**
      * @var string
@@ -21,6 +21,7 @@ abstract class AbstractSignatureServiceProvider extends AbstractServiceProvider 
     public function withSignature($signature)
     {
         $this->signature = $signature;
+
         return $this;
     }
 
