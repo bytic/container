@@ -19,7 +19,7 @@ trait ContainerAwareTrait
      */
     public function getContainer()
     {
-        if ($this->container == null) {
+        if ($this->hasContainer()) {
             $this->initContainer();
         }
 

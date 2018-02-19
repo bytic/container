@@ -12,19 +12,6 @@ trait ContainerAliasBindingsTrait
 {
     use ContainerAwareTrait;
 
-    public function initContainer()
-    {
-        if ($this->hasContainer()) {
-            return;
-        }
-        $this->setContainer($this->generateContainer());
-        $this->initContainerBindings();
-    }
-
-    protected function initContainerBindings()
-    {
-    }
-
     /**
      * @return ContainerInterface
      */
