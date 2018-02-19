@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Nip\Container\Tests\Fixtures;
 
 use ArrayAccess;
