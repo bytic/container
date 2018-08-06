@@ -3,10 +3,13 @@
 namespace Nip\Container;
 
 use ArrayAccess;
+use Nip\Container\Definition\AbstractDefinition;
+use Nip\Container\Definition\CallableDefinition;
 use Nip\Container\Definition\ClassDefinition;
 use Nip\Container\Definition\DefinitionInterface;
 use Nip\Container\Exception\NotFoundException;
 use Nip\Container\ServiceProvider\ProviderRepository;
+use Nip\Container\Tests\AbstractTest;
 
 /**
  * Class Container.
@@ -61,7 +64,7 @@ class Container implements ArrayAccess, ContainerInterface
     /**
      * Register a shared binding in the container.
      *
-     * @param string|array         $abstract
+     * @param string|array $abstract
      * @param \Closure|string|null $concrete
      *
      * @return void
@@ -116,15 +119,17 @@ class Container implements ArrayAccess, ContainerInterface
      * @param $id
      * @param $concrete
      *
-     * @return ClassDefinition
+     * @return AbstractDefinition
      */
     public function newDefinition($id, $concrete)
     {
-//        if (is_callable($concrete)) {
-//            $concrete = new CallableDefinition($id, $concrete);
-        if (is_string($concrete)) {
-            $concrete = new ClassDefinition($id, $concrete);
+        if (is_callable($concrete)) {
+            return new CallableDefinition($id, $concrete);
         }
+        if (is_string($concrete)) {
+            return new ClassDefinition($id, $concrete);
+        }
+
         // if the item is not defineable we just return the value to be stored
         // in the container as an arbitrary value/instance
         return $concrete;
@@ -132,7 +137,7 @@ class Container implements ArrayAccess, ContainerInterface
 
     /**
      * @param string $id
-     * @param array  $args
+     * @param array $args
      *
      * @return bool|mixed|object
      */
@@ -280,7 +285,7 @@ class Container implements ArrayAccess, ContainerInterface
      * Set the value at a given offset.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return void
      */
@@ -315,7 +320,7 @@ class Container implements ArrayAccess, ContainerInterface
      * Dynamically set container services.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return void
      */

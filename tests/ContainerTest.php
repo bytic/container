@@ -53,6 +53,7 @@ class ContainerTest extends AbstractTest
         static::assertTrue($container->has('service'));
         static::assertSame($container->get('service'), $class);
     }
+
     /**
      * Asserts that the container sets and gets shared overwrite
      */
@@ -74,5 +75,20 @@ class ContainerTest extends AbstractTest
         $modules3 = $container->get('service');
         static::assertInstanceOf('\stdClass', $modules3, '->assert service overwrite');
         static::assertNotSame($modules2, $modules3);
+    }
+
+    /**
+     * Asserts that the container sets and gets shared overwrite
+     */
+    public function testSetAndGetServiceSharedClosuer()
+    {
+        $container = new Container();
+        $container->singleton(
+            'service',
+            function () {
+                return new Fixtures\ModulesService();
+            }
+        );
+        static::assertInstanceOf(Fixtures\ModulesService::class, $container->get('service'));
     }
 }
