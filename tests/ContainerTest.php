@@ -3,6 +3,7 @@
 namespace Nip\Container\Tests;
 
 use Nip\Container\Container;
+use Nip\Container\Tests\Fixtures\ModulesService;
 
 /**
  * Class ContainerTest
@@ -52,6 +53,21 @@ class ContainerTest extends AbstractTest
         $container->add('service', $class);
         static::assertTrue($container->has('service'));
         static::assertSame($container->get('service'), $class);
+    }
+
+    /**
+     * Asserts that the container sets and gets shared overwrite
+     */
+    public function testAutoInitClasses()
+    {
+        $container = new Container();
+
+        $service = $container->get(ModulesService::class, [['organizers']]);
+        self::assertInstanceOf(ModulesService::class, $service);
+        self::assertSame('organizers', $service['organizers']);
+
+        $service2 = $container->get(ModulesService::class);
+        self::assertSame($service, $service2);
     }
 
     /**

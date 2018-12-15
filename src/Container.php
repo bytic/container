@@ -9,7 +9,6 @@ use Nip\Container\Definition\ClassDefinition;
 use Nip\Container\Definition\DefinitionInterface;
 use Nip\Container\Exception\NotFoundException;
 use Nip\Container\ServiceProvider\ProviderRepository;
-use Nip\Container\Tests\AbstractTest;
 
 /**
  * Class Container.
@@ -24,14 +23,17 @@ class Container implements ArrayAccess, ContainerInterface
      * @var static
      */
     protected static $instance;
+
     /**
      * @var Definition\DefinitionInterface[]
      */
     protected $definitions = [];
+
     /**
      * @var \Nip\Container\ServiceProvider\ProviderRepository
      */
     protected $providers = null;
+
     /**
      * The container's shared instances.
      *
@@ -151,6 +153,12 @@ class Container implements ArrayAccess, ContainerInterface
         }
 
         if ($instance !== false) {
+            return $instance;
+        }
+
+        if (class_exists($id)) {
+            $instance = new $id(...$args);
+            $this->add($id, $instance);
             return $instance;
         }
 

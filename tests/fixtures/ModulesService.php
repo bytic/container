@@ -14,9 +14,12 @@ class ModulesService implements ArrayAccess
     /**
      * Modules constructor.
      */
-    public function __construct()
+    public function __construct($newModules = [])
     {
         $this->init();
+        foreach ($newModules as $module) {
+            $this->addModule($module);
+        }
     }
 
     public function init()
@@ -109,7 +112,7 @@ class ModulesService implements ArrayAccess
      * Set the value at a given offset.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return void
      */
