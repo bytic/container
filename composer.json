@@ -12,7 +12,8 @@
   ],
   "autoload": {
     "psr-4": {
-      "Nip\\Container\\": "src"
+      "Nip\\Container\\": "src",
+      "Nip\\Container\\Legacy": "legacy"
     },
     "classmap": [
     ],

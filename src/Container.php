@@ -4,6 +4,7 @@ namespace Nip\Container;
 
 use League\Container\ReflectionContainer;
 use Nip\Container\Bridges\LeagueContainer;
+use Nip\Container\Legacy\Container\Traits\DeprecatedMethodsTrait;
 
 /**
  * Class Container
@@ -12,6 +13,7 @@ use Nip\Container\Bridges\LeagueContainer;
 class Container extends LeagueContainer implements ContainerInterface
 {
     use Traits\ContainerPersistenceTrait;
+    use DeprecatedMethodsTrait;
 
     /**
      * @inheritdoc
