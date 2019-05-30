@@ -58,7 +58,7 @@ trait ServiceProviderAwareTrait
      */
     public function getConfiguredProviders()
     {
-        if (!function_exists('config')) {
+        if (!function_exists('app') || !function_exists('config') || !app()->has('config')) {
             return $this->getGenericProviders();
         }
         return config()->get('app.providers', $this->getGenericProviders());
