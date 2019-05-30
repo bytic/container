@@ -22,7 +22,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Nip\\Container\\Tests\\": "tests/"
+      "Nip\\Container\\Tests\\": "tests/",
+      "Nip\\Container\\Tests\\Fixtures\\": "tests/fixtures"
     }
   },
   "require": {
