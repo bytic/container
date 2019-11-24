@@ -2,7 +2,7 @@
 
 namespace Nip\Container\Exception;
 
-use Interop\Container\Exception\NotFoundException as NotFoundExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface as NotFoundExceptionInterface;
 use InvalidArgumentException;
 
 /**
