@@ -33,6 +33,7 @@ trait ServiceProviderAwareTrait
         if ($this->providerRepository === null) {
             $this->providerRepository = new ProviderRepository();
             $this->providerRepository->setContainer($this->getContainer());
+            $this->getContainer()->setProviders($this->providerRepository);
         }
 
         return $this->providerRepository;
@@ -43,8 +44,11 @@ trait ServiceProviderAwareTrait
      */
     public function getConfiguredProviders()
     {
-        if (function_exists('config')) {
-            return config()->get('app.providers', $this->getGenericProviders());
+        if (function_exists('app') && app()->has('config') && function_exists('config')) {
+            $config = config();
+            if (is_object($config)) {
+                return config()->get('app.providers', $this->getGenericProviders());
+            }
         }
         return $this->getGenericProviders();
     }
