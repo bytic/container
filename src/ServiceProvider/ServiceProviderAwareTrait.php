@@ -22,7 +22,8 @@ trait ServiceProviderAwareTrait
             $this->getProviderRepository()->add($provider);
         }
 
-        $this->getProviderRepository()->register();
+        //For Old Container there is no need for register
+//        $this->getProviderRepository()->register();
     }
 
     /**
