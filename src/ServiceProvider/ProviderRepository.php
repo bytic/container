@@ -95,6 +95,6 @@ class ProviderRepository implements ProviderRepositoryInterface
      */
     public function getProviders(): array
     {
-        return array_unique($this->providers);
+        return $this->providers;
     }
 }
