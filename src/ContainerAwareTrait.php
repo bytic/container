@@ -42,8 +42,13 @@ trait ContainerAwareTrait
 
     public function initContainer()
     {
-        $this->container = $this->newContainer();
-        Container::setInstance($this->container);
+        $container = Container::getInstance();
+        if ($container instanceof Container) {
+            $this->container = $container;
+        } else {
+            $this->container = $this->newContainer();
+            Container::setInstance($this->container);
+        }
     }
 
     /**
