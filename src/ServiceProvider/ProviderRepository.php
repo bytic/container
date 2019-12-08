@@ -43,8 +43,9 @@ class ProviderRepository implements ProviderRepositoryInterface
             return $this;
         }
 
+        $providerName = is_object($provider) ? get_class($provider) : $provider;
         throw new \InvalidArgumentException(
-            'A service provider must be a fully qualified class name or instance '.
+            'A service provider ['.$providerName.'] must be a fully qualified class name or instance '.
             'of (\Nip\Container\ServiceProvider\ServiceProviderInterface)'
         );
     }
