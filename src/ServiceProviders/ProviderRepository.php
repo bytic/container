@@ -174,6 +174,14 @@ class ProviderRepository implements ProviderRepositoryInterface
         }
         return null;
     }
+    
+    /**
+     * @return array
+     */
+    public function getProviders(): array
+    {
+        return $this->providers;
+    }
 
     /**
      * Check to see if the services is registered
