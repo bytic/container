@@ -14,6 +14,8 @@ class ContainerAwareTest extends AbstractTest
     public function testCheckInitOnlyOnce()
     {
         $object = new ObjectHasContainer();
+        $object->initContainer();
+
         $object->getContainer()->set('test', 'value');
 
         self::assertInstanceOf(Container::class, $object->getContainer());

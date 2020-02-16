@@ -3,6 +3,7 @@
 namespace Nip\Container\ServiceProviders\Providers;
 
 use Nip\Container\ContainerAwareTrait;
+use Nip\Container\ServiceProviders\Providers\Traits\HasCommands;
 
 /**
  * Class AbstractServiceProvider
@@ -13,6 +14,7 @@ use Nip\Container\ContainerAwareTrait;
 abstract class AbstractServiceProvider implements ServiceProviderInterface
 {
     use ContainerAwareTrait;
+    use HasCommands;
 
     /**
      * @param null|string $service

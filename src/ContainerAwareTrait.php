@@ -26,13 +26,32 @@ trait ContainerAwareTrait
     /**
      * Set a container.
      *
-     * @param  \Nip\Container\ContainerInterface $container
+     * @param \Nip\Container\ContainerInterface $container
      * @return $this
      */
     public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
         return $this;
+    }
+
+    public function initContainer()
+    {
+        $container = Container::getInstance();
+        if ($container instanceof Container) {
+            $this->container = $container;
+        } else {
+            $this->container = $this->newContainer();
+            Container::setInstance($this->container);
+        }
+    }
+
+    /**
+     * @return Container
+     */
+    public function newContainer()
+    {
+        return new Container();
     }
 
     /**
