@@ -3,6 +3,8 @@
 namespace Nip\Container\ServiceProviders;
 
 use Nip\AutoLoader\AutoLoaderServiceProvider;
+use Nip\Config\Config;
+use Nip\Container\Container;
 use Nip\Database\DatabaseServiceProvider;
 use Nip\Dispatcher\DispatcherServiceProvider;
 use Nip\Filesystem\FilesystemServiceProvider;
