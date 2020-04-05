@@ -28,7 +28,7 @@
   "require": {
     "php": "^7.0",
     "psr/container": "^1.0",
-    "league/container": "^2.4"
+    "league/container": "^2.4|^3.0"
   },
   "require-dev": {
     "bytic/config": "^0.9|^1.0",
