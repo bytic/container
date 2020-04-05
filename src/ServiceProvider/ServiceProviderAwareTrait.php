@@ -2,6 +2,9 @@
 
 namespace Nip\Container\ServiceProvider;
 
+use Nip\Config\Config;
+use Nip\Container\Container;
+
 /**
  * Class ServiceProviderAwareTrait
  * @package Nip\Container\ServiceProviders
@@ -50,13 +53,34 @@ trait ServiceProviderAwareTrait
      */
     public function getConfiguredProviders()
     {
-        if (function_exists('app') && app()->has('config') && function_exists('config')) {
-            $config = config();
-            if (is_object($config)) {
-                return config()->get('app.providers', $this->getGenericProviders());
-            }
+        return $this->getConfigProvidersValue($this->getGenericProviders());
+    }
+
+    /**
+     * @param null $default
+     * @return array|null
+     * @throws \Exception
+     */
+    protected function getConfigProvidersValue($default = null)
+    {
+        if (function_exists('config') === false) {
+            return $default;
         }
-        return $this->getGenericProviders();
+        if (function_exists('app') === false && !(Container::getInstance() instanceof Container)) {
+            return $default;
+        }
+        $container = function_exists('app') ? app() : Container::getInstance();
+        if ($container->has('config') == false) {
+            return $default;
+        }
+        $value = config('app.providers');
+        if ($value instanceof Config) {
+            $value = $value->toArray();
+        }
+        if (empty($value)) {
+            return $default;
+        }
+        return $value;
     }
 
     /**
