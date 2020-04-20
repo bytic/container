@@ -23,4 +23,3 @@ trait DeprecatedMethodsTrait
         $this->share($abstract, $concrete);
     }
 }
-
