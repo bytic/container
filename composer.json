@@ -16,6 +16,7 @@
       "Nip\\Container\\Legacy\\": "legacy"
     },
     "classmap": [
+      "legacy"
     ],
     "files": [
     ]

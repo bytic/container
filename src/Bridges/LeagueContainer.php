@@ -12,6 +12,7 @@ use Nip\Container\Traits\ContainerArrayAccessTrait;
  */
 abstract class LeagueContainer extends Container implements BridgeInterface
 {
+    use ContainerArrayAccessTrait;
 
     /**
      * The registered type aliases.
@@ -19,8 +20,6 @@ abstract class LeagueContainer extends Container implements BridgeInterface
      * @var array
      */
     protected $aliases = [];
-
-    use ContainerArrayAccessTrait;
 
     /**
      * @inheritdoc
