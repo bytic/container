@@ -2,7 +2,7 @@
 
 namespace Nip\Container\Tests\Fixtures;
 
-use Nip\Container\ServiceProvider\ServiceProviderAwareTrait;
+use Nip\Container\ServiceProviders\ServiceProviderAwareTrait;
 
 /**
  * Class ServiceProviderAwareObject

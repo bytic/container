@@ -1,18 +1,18 @@
 <?php
 
-namespace Nip\Container\ServiceProvider;
+namespace Nip\Container\ServiceProviders\Providers;
 
 /**
- * Interface SignatureServiceProviderInterface.
+ * Interface SignatureServiceProviderInterface
+ * @package Nip\Container\ServiceProvider
  */
-interface SignatureServiceProviderInterface
+interface SignatureServiceProviderInterface extends ServiceProviderInterface
 {
     /**
      * Set a custom signature for the service provider. This enables
      * registering the same service provider multiple times.
      *
-     * @param string $signature
-     *
+     * @param  string $signature
      * @return self
      */
     public function withSignature($signature);

@@ -3,40 +3,35 @@
 namespace Nip\Container;
 
 /**
- * Class ContainerAwareTrait.
+ * Class ContainerAwareTrait
+ * @package Nip\Container
  */
 trait ContainerAwareTrait
 {
     /**
-     * @var ContainerInterface|Container|null
+     * @var \Nip\Container\ContainerInterface
      */
-    protected $container = null;
+    protected $container;
 
     /**
      * Get the container.
      *
-     * @return Container
+     * @return \Nip\Container\ContainerInterface
      */
     public function getContainer()
     {
-        if (!$this->hasContainer()) {
-            $this->initContainer();
-        }
-
         return $this->container;
     }
 
     /**
      * Set a container.
      *
-     * @param Container|ContainerInterface $container
-     *
+     * @param \Nip\Container\ContainerInterface $container
      * @return $this
      */
     public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
-
         return $this;
     }
 

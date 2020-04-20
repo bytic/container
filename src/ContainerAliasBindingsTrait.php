@@ -12,6 +12,19 @@ trait ContainerAliasBindingsTrait
 {
     use ContainerAwareTrait;
 
+    public function initContainer()
+    {
+        if ($this->hasContainer()) {
+            return;
+        }
+        $this->setContainer($this->generateContainer());
+        $this->initContainerBindings();
+    }
+
+    protected function initContainerBindings()
+    {
+    }
+
     /**
      * @return ContainerInterface
      */
@@ -54,7 +67,7 @@ trait ContainerAliasBindingsTrait
      */
     public function share($alias, $concrete = null)
     {
-        $this->getContainer()->singleton($alias, $concrete);
+        $this->getContainer()->share($alias, $concrete);
     }
 
     /**

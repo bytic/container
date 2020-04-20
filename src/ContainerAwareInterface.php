@@ -3,19 +3,20 @@
 namespace Nip\Container;
 
 /**
- * Interface ContainerAwareInterface.
+ * Interface ContainerAwareInterface
+ * @package Nip\Container
  */
 interface ContainerAwareInterface
 {
     /**
-     * Set a container.
+     * Set a container
      *
      * @param \Nip\Container\ContainerInterface $container
      */
     public function setContainer(ContainerInterface $container);
 
     /**
-     * Get the container.
+     * Get the container
      *
      * @return \Nip\Container\ContainerInterface
      */

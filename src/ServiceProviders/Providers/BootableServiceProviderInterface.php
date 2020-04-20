@@ -1,9 +1,10 @@
 <?php
 
-namespace Nip\Container\ServiceProvider;
+namespace Nip\Container\ServiceProviders\Providers;
 
 /**
- * Interface BootableServiceProviderInterface.
+ * Interface BootableServiceProviderInterface
+ * @package Nip\Container\ServiceProvider
  */
 interface BootableServiceProviderInterface extends ServiceProviderInterface
 {

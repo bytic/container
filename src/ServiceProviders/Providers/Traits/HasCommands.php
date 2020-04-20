@@ -1,6 +1,6 @@
 <?php
 
-namespace Nip\Container\ServiceProvider\Traits;
+namespace Nip\Container\ServiceProviders\Providers\Traits;
 
 /**
  * Trait HasCommands

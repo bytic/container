@@ -1,9 +1,23 @@
 <?php
 
-namespace Nip\Container\ServiceProvider;
+namespace Nip\Container\ServiceProviders;
 
+use Nip\AutoLoader\AutoLoaderServiceProvider;
 use Nip\Config\Config;
 use Nip\Container\Container;
+use Nip\Database\DatabaseServiceProvider;
+use Nip\Dispatcher\DispatcherServiceProvider;
+use Nip\Filesystem\FilesystemServiceProvider;
+use Nip\FlashData\FlashServiceProvider;
+use Nip\I18n\TranslatorServiceProvider;
+use Nip\Inflector\InflectorServiceProvider;
+use Nip\Locale\LocaleServiceProvider;
+use Nip\Logger\LoggerServiceProvider;
+use Nip\Mail\MailServiceProvider;
+use Nip\Mvc\MvcServiceProvider;
+use Nip\Router\RouterServiceProvider;
+use Nip\Router\RoutesServiceProvider;
+use Nip\Staging\StagingServiceProvider;
 
 /**
  * Class ServiceProviderAwareTrait
@@ -25,13 +39,7 @@ trait ServiceProviderAwareTrait
             $this->getProviderRepository()->add($provider);
         }
 
-        //For Old Container there is no need for register
-        $providers = $this->getProviderRepository()->getProviders();
-        foreach ($providers as $provider) {
-            foreach ($provider->provides() as $service) {
-                $this->getProviderRepository()->register($service);
-            }
-        }
+        return $this->getProviderRepository()->register();
     }
 
     /**
@@ -42,7 +50,6 @@ trait ServiceProviderAwareTrait
         if ($this->providerRepository === null) {
             $this->providerRepository = new ProviderRepository();
             $this->providerRepository->setContainer($this->getContainer());
-            $this->getContainer()->setProviders($this->providerRepository);
         }
 
         return $this->providerRepository;
@@ -88,7 +95,22 @@ trait ServiceProviderAwareTrait
      */
     public function getGenericProviders()
     {
-        return [];
+        return [
+            AutoLoaderServiceProvider::class,
+            LoggerServiceProvider::class,
+            InflectorServiceProvider::class,
+            LocaleServiceProvider::class,
+            MailServiceProvider::class,
+            MvcServiceProvider::class,
+            DispatcherServiceProvider::class,
+            StagingServiceProvider::class,
+            RouterServiceProvider::class,
+            RoutesServiceProvider::class,
+            DatabaseServiceProvider::class,
+            TranslatorServiceProvider::class,
+            FlashServiceProvider::class,
+            FilesystemServiceProvider::class,
+        ];
     }
 
     public function bootProviders()
