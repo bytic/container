@@ -16,9 +16,9 @@ class ContainerAwareTest extends AbstractTest
         $object = new ObjectHasContainer();
         $object->initContainer();
 
-        $object->getContainer()->set('test', 'value');
+        $object->getContainer()->set('test', 'myMalue');
 
         self::assertInstanceOf(Container::class, $object->getContainer());
-        self::assertEquals('value', $object->getContainer()->get('test'));
+        self::assertEquals('myMalue', $object->getContainer()->get('test'));
     }
 }

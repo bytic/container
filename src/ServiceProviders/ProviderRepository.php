@@ -7,6 +7,7 @@ use Nip\Container\ContainerAwareTrait;
 use Nip\Container\ServiceProviders\Providers\AbstractServiceProvider;
 use Nip\Container\ServiceProviders\Providers\BootableServiceProviderInterface;
 use Nip\Container\ServiceProviders\Providers\ServiceProviderInterface;
+use Nip\Utility\Arr;
 
 /**
  * Class ServiceProviderAggregate
@@ -132,7 +133,7 @@ class ProviderRepository implements ProviderRepositoryInterface
     public function getProvider($provider)
     {
         $name = is_string($provider) ? $provider : get_class($provider);
-        return \Nip_Helper_Arrays::first($this->providers, function ($value) use ($name) {
+        return Arr::first($this->providers, function ($value) use ($name) {
             return $value instanceof $name;
         });
     }

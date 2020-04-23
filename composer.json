@@ -29,6 +29,7 @@
   },
   "require": {
     "php": "^7.0",
+    "bytic/utility": "^1.0",
     "psr/container": "^1.0",
     "league/container": "^2.4"
   },
