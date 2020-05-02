@@ -10,14 +10,13 @@ use League\Container\ServiceProvider\ServiceProviderInterface;
  */
 trait ContainerAliasBindingsTrait
 {
-    use ContainerAwareTrait;
+    use ContainerAwareTrait {
+        initContainer as initContainerTrait;
+    }
 
     public function initContainer()
     {
-        if ($this->hasContainer()) {
-            return;
-        }
-        $this->setContainer($this->generateContainer());
+        $this->initContainerTrait();
         $this->initContainerBindings();
     }
 

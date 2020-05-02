@@ -81,8 +81,7 @@ trait ServiceProviderAwareTrait
      */
     public function getGenericProviders()
     {
-        $config = require dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'app.php';
-        return $config['providers'];
+        return [];
     }
 
     public function bootProviders()
