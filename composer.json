@@ -19,6 +19,7 @@
       "legacy"
     ],
     "files": [
+      "src/functions/common.php"
     ]
   },
   "autoload-dev": {
