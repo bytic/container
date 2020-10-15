@@ -2,6 +2,7 @@
 
 namespace Nip\Container\Tests;
 
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Nip\Container\Container;
 use PHPUnit\Framework\TestCase;
 
@@ -10,7 +11,16 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     protected $object;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        \Nip\Container\Container::setInstance(new Container());
+        \Nip\Utility\Container::container(true);
+    }
 
     /**
      * This method is called after each test.
@@ -20,6 +30,5 @@ abstract class AbstractTest extends TestCase
         parent::tearDown();
 
         \Mockery::close();
-        Container::setInstance(new Container());
     }
 }

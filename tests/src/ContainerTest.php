@@ -62,7 +62,8 @@ class ContainerTest extends AbstractTest
     {
         $container = new Container();
 
-        $service = $container->get(ModulesService::class, ['newModules' => ['organizers']]);
+        $container->add(ModulesService::class)->addArgument(['organizers']);
+        $service = $container->get(ModulesService::class);
         self::assertInstanceOf(ModulesService::class, $service);
         self::assertSame('organizers', $service['organizers']);
     }

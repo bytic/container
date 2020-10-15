@@ -3,6 +3,7 @@
 namespace Nip\Container;
 
 use ArrayAccess;
+use League\Container\Definition\DefinitionInterface;
 use League\Container\ServiceProvider\ServiceProviderInterface;
 use Psr\Container\ContainerInterface as PsrInterface;
 
@@ -27,7 +28,7 @@ interface ContainerInterface extends PsrInterface, ArrayAccess
      * @param  string $alias
      * @param  mixed|null $concrete
      */
-    public function share($alias, $concrete = null);
+    public function share(string $alias, $concrete = null);
 
     /**
      * Convenience method to add an item to the container as a shared item.
