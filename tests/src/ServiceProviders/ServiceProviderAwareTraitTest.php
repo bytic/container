@@ -29,7 +29,7 @@ class ServiceProviderAwareTraitTest extends AbstractTest
         $config = new Config(['app' => ['providers' => ['test' => 'name']]]);
         $container->set('config', $config);
         Container::setInstance($container);
-        \Nip\Utility\Container::container(true);
+        \Nip\Container\Utility\Container::container(true);
 
         $object = $this->generateMockedObject();
         $object->shouldReceive('getGenericProviders')->once()->andReturn([]);

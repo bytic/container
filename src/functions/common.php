@@ -10,6 +10,6 @@ if (!function_exists('app')) {
      */
     function app($make = null, $parameters = [])
     {
-        return \Nip\Utility\Container::get($make, $parameters);
+        return \Nip\Container\Utility\Container::get($make, $parameters);
     }
 }
