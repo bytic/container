@@ -3,8 +3,8 @@
 namespace Nip\Container\Utility;
 
 use Exception;
-use Psr\Container\ContainerInterface;
 use Nip\Container\Container as NipContainer;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class Container
@@ -40,15 +40,14 @@ class Container
 
     /**
      * @param null $make
-     * @param array $parameters
      * @return mixed
      */
-    public static function get($make = null, $parameters = [])
+    public static function get($make = null)
     {
         if (is_null($make)) {
             return static::container();
         }
 
-        return static::container()->get($make, $parameters);
+        return static::container()->get($make);
     }
 }
