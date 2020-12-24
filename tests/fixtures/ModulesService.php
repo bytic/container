@@ -7,7 +7,7 @@ use ArrayAccess;
 /**
  * Class Modules.
  */
-class ModulesService implements ArrayAccess
+class ModulesService implements ArrayAccess, \Countable
 {
     protected $modules = [];
 
@@ -131,5 +131,10 @@ class ModulesService implements ArrayAccess
     public function offsetUnset($key)
     {
         unset($this->modules[$key]);
+    }
+
+    public function count(): int
+    {
+        return count($this->modules);
     }
 }

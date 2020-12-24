@@ -16,20 +16,4 @@ class Container extends LeagueContainer implements ContainerInterface
 {
     use Traits\ContainerPersistenceTrait;
     use DeprecatedMethodsTrait;
-
-    /**
-     * @inheritdoc
-     */
-    public function __construct(
-        DefinitionAggregateInterface $definitions = null,
-        ServiceProviderAggregateInterface $providers = null,
-        InflectorAggregateInterface $inflectors = null
-    ) {
-        parent::__construct($definitions, $providers, $inflectors);
-
-        // register the reflection container as a delegate to enable auto wiring
-        $this->delegate(
-            new \League\Container\ReflectionContainer
-        );
-    }
 }

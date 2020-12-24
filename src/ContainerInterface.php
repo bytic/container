@@ -3,7 +3,6 @@
 namespace Nip\Container;
 
 use ArrayAccess;
-use League\Container\Definition\DefinitionInterface;
 use League\Container\ServiceProvider\ServiceProviderInterface;
 use Psr\Container\ContainerInterface as PsrInterface;
 
@@ -48,8 +47,18 @@ interface ContainerInterface extends PsrInterface, ArrayAccess
     /**
      * Add a service provider to the container.
      *
-     * @param  string|ServiceProviderInterface $provider
+     * @param string|ServiceProviderInterface $provider
      * @return void
      */
     public function addServiceProvider($provider);
+
+
+    /**
+     * Resolve the given type from the container.
+     *
+     * @param string $abstract
+     * @param array $parameters
+     * @return mixed
+     */
+    public function make($abstract, array $parameters = []);
 }
