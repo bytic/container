@@ -20,6 +20,6 @@ trait DeprecatedMethodsTrait
      */
     public function singleton($abstract, $concrete = null)
     {
-        $this->share($abstract, $concrete);
+        return $this->share($abstract, $concrete);
     }
 }
