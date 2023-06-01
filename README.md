@@ -10,3 +10,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/bytic/container.svg?style=flat-square)](https://scrutinizer-ci.com/g/bytic/container)
 [![StyleCI](https://styleci.io/repos/118474281/shield?branch=master)](https://styleci.io/repos/118474281)
 [![Total Downloads](https://img.shields.io/packagist/dt/bytic/container.svg?style=flat-square)](https://packagist.org/packages/bytic/container)
+
+#### Inspiration 
+* https://github.com/container-interop/service-provider
+* https://github.com/thecodingmachine/service-provider-bridge-bundle/blob/1.0/src/ServiceProviderCompilationPass.php

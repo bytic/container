@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container\ServiceProviders;
 
@@ -25,7 +26,7 @@ interface ProviderRepositoryInterface extends ContainerAwareInterface
      * @param  string $service
      * @return boolean
      */
-    public function provides($service);
+    public function provides(string $service);
 
     /**
      * Invokes the register method of a provider that provides a specific service.

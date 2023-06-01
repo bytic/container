@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container\Tests\Fixtures;
 
@@ -10,17 +11,20 @@ use Nip\Container\ServiceProviders\Providers\AbstractServiceProvider;
  */
 class DemoServiceProvider extends AbstractServiceProvider
 {
+    public const DUMMY_CONSTANT = 'dummy';
 
     /**
      * @inheritDoc
      */
-    public function provides()
+    public function provides(): array
     {
-        return ['dummy'];
+        return [
+            self::DUMMY_CONSTANT,
+        ];
     }
 
     public function register()
     {
-        // TODO: Implement register() method.
+        $this->container->set(self::DUMMY_CONSTANT, true);
     }
 }

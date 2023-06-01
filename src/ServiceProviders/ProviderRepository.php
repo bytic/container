@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container\ServiceProviders;
 
@@ -15,11 +16,6 @@ use Nip\Container\ServiceProviders\Providers\ServiceProviderInterface;
 class ProviderRepository implements ProviderRepositoryInterface
 {
     use ContainerAwareTrait;
-
-    /**
-     * @var array
-     */
-    protected $services = [];
 
     /**
      * @var AbstractServiceProvider[]
@@ -60,9 +56,6 @@ class ProviderRepository implements ProviderRepositoryInterface
         }
 
         if ($provider instanceof ServiceProviderInterface) {
-            foreach ($provider->provides() as $service) {
-                $this->services[$service] = get_class($provider);
-            }
             $this->providers[] = $provider;
             return $this;
         }
@@ -84,11 +77,35 @@ class ProviderRepository implements ProviderRepositoryInterface
         return new $provider($this);
     }
 
-    public function register()
+    public function register(string $service): void
+    {
+        if (false === $this->provides($service)) {
+            throw new \Exception(
+                sprintf('(%s) is not provided by a service provider', $service)
+            );
+        }
+
+        foreach ($this->providers as $provider) {
+            if ($this->isRegistered($provider)) {
+                continue;
+            }
+
+            if ($provider->isProviding($service)) {
+                $provider->register();
+                $this->markAsRegistered($provider);
+            }
+        }
+    }
+
+    public function provides(string $service): bool
     {
         foreach ($this->providers as $provider) {
-            $this->registerProvider($provider);
+            if ($provider->isProviding($service)) {
+                return true;
+            }
         }
+
+        return false;
     }
 
     /**
@@ -165,6 +182,15 @@ class ProviderRepository implements ProviderRepositoryInterface
         $this->registeredProviders[get_class($provider)] = true;
     }
 
+    protected function isRegistered($provider)
+    {
+        $providerClass = get_class($provider);
+        if (isset($this->registeredProviders[$providerClass]) && $this->registeredProviders[$providerClass] === true) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Boot the given service provider.
      *
@@ -185,15 +211,6 @@ class ProviderRepository implements ProviderRepositoryInterface
     public function getProviders(): array
     {
         return $this->providers;
-    }
-
-    /**
-     * Check to see if the services is registered
-     * {@inheritdoc}
-     */
-    public function provides($service)
-    {
-        return array_key_exists($service, $this->providers);
     }
 
     public function boot()

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container\ServiceProviders;
 
@@ -23,9 +24,8 @@ trait ServiceProviderAwareTrait
         $providers = $this->getConfiguredProviders();
         foreach ($providers as $provider) {
             $this->getProviderRepository()->add($provider);
+            $this->getProviderRepository()->registerProvider($provider);
         }
-
-        return $this->getProviderRepository()->register();
     }
 
     /**
@@ -35,7 +35,7 @@ trait ServiceProviderAwareTrait
     {
         if ($this->providerRepository === null) {
             $this->providerRepository = new ProviderRepository();
-            $this->providerRepository->setContainer($this->getContainer());
+            $this->providerRepository->setContainer($this);
         }
 
         return $this->providerRepository;

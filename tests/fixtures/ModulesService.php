@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container\Tests\Fixtures;
 
@@ -45,7 +46,7 @@ class ModulesService implements ArrayAccess, \Countable
      *
      * @return bool
      */
-    public function offsetExists($key)
+    public function offsetExists(mixed $key): bool
     {
         return array_key_exists($key, $this->modules);
     }
@@ -75,7 +76,7 @@ class ModulesService implements ArrayAccess, \Countable
      */
     public function getViewPath($name)
     {
-        return $this->getModuleDirectory($name).DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR;
+        return $this->getModuleDirectory($name) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -85,7 +86,7 @@ class ModulesService implements ArrayAccess, \Countable
      */
     public function getModuleDirectory($name)
     {
-        return $this->getModulesBaseDirectory().$name;
+        return $this->getModulesBaseDirectory() . $name;
     }
 
     /**
@@ -103,7 +104,7 @@ class ModulesService implements ArrayAccess, \Countable
      *
      * @return mixed
      */
-    public function offsetGet($key)
+    public function offsetGet(mixed $key): mixed
     {
         return $this->modules[$key];
     }
@@ -116,7 +117,7 @@ class ModulesService implements ArrayAccess, \Countable
      *
      * @return void
      */
-    public function offsetSet($key, $value)
+    public function offsetSet(mixed $key, mixed $value): void
     {
         $this->modules[$key] = $value;
     }
@@ -128,7 +129,7 @@ class ModulesService implements ArrayAccess, \Countable
      *
      * @return void
      */
-    public function offsetUnset($key)
+    public function offsetUnset(mixed $key): void
     {
         unset($this->modules[$key]);
     }

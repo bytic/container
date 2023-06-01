@@ -1,18 +1,19 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container\Tests\ServiceProviders;
 
 use Mockery\Mock;
 use Nip\Config\Config;
 use Nip\Container\Container;
-use Nip\Container\Tests\AbstractTest;
+use Nip\Container\Tests\AbstractTestCase;
 use Nip\Container\Tests\Fixtures\ServiceProviderAwareObject;
 
 /**
  * Class ServiceProviderAwareTraitTest
  * @package Nip\Container\Tests\ServiceProvider
  */
-class ServiceProviderAwareTraitTest extends AbstractTest
+class ServiceProviderAwareTraitTest extends AbstractTestCase
 {
     public function test_getConfiguredProviders_noConfig()
     {

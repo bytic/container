@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container;
 
 use ArrayAccess;
-use League\Container\ServiceProvider\ServiceProviderInterface;
+use Nip\Container\ServiceProviders\Providers\ServiceProviderInterface;
 use Psr\Container\ContainerInterface as PsrInterface;
 
 /**
@@ -12,14 +13,6 @@ use Psr\Container\ContainerInterface as PsrInterface;
  */
 interface ContainerInterface extends PsrInterface, ArrayAccess
 {
-    /**
-     * Add an item to the container.
-     *
-     * @param  string $alias
-     * @param  mixed|null $concrete
-     * @param  boolean $share
-     */
-    public function set($alias, $concrete = null, $share = false);
 
     /**
      * Convenience method to add an item to the container as a shared item.
@@ -52,13 +45,4 @@ interface ContainerInterface extends PsrInterface, ArrayAccess
      */
     public function addServiceProvider($provider);
 
-
-    /**
-     * Resolve the given type from the container.
-     *
-     * @param string $abstract
-     * @param array $parameters
-     * @return mixed
-     */
-    public function make($abstract, array $parameters = []);
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container\Tests;
 
@@ -9,7 +10,7 @@ use Nip\Container\Tests\Fixtures\ObjectHasContainer;
  * Class ContainerTest
  * @package Nip\Tests\Container
  */
-class ContainerAwareTest extends AbstractTest
+class ContainerAwareTest extends AbstractTestCase
 {
     public function testCheckInitOnlyOnce()
     {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container;
 
@@ -16,7 +17,7 @@ trait ContainerAwareTrait
     /**
      * Get the container.
      *
-     * @return \Nip\Container\ContainerInterface
+     * @return ContainerInterface|Container
      */
     public function getContainer()
     {

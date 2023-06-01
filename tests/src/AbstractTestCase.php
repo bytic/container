@@ -1,25 +1,25 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container\Tests;
 
+use Bytic\Phpqa\PHPUnit\TestCase;
+use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Nip\Container\Container;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Class AbstractTest
  */
-abstract class AbstractTest extends TestCase
+abstract class AbstractTestCase extends TestCase
 {
-    use MockeryPHPUnitIntegration;
-
     protected $object;
 
     protected function setUp(): void
     {
         parent::setUp();
-        \Nip\Container\Container::setInstance(new Container());
-        \Nip\Utility\Container::container(true);
+        Container::setInstance(new Container());
+        \Nip\Container\Utility\Container::container(true);
     }
 
     /**
@@ -29,6 +29,6 @@ abstract class AbstractTest extends TestCase
     {
         parent::tearDown();
 
-        \Mockery::close();
+        Mockery::close();
     }
 }

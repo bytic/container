@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container\Tests;
 
@@ -9,16 +10,17 @@ use Nip\Container\Tests\Fixtures\ContainerAliasBindingsObject;
  * Class ContainerAliasBindingsTraitTest
  * @package Nip\Container\Tests
  */
-class ContainerAliasBindingsTraitTest extends AbstractTest
+class ContainerAliasBindingsTraitTest extends AbstractTestCase
 {
     public function test_set()
     {
+        $object  = new \stdClass();
         $container = \Mockery::mock(Container::class);
-        $container->shouldReceive('get')->andReturn(1);
+        $container->shouldReceive('get')->andReturn($object);
 
         $aliasBinding = new ContainerAliasBindingsObject();
         $aliasBinding->setContainer($container);
 
-        self::assertSame(1, $aliasBinding->get('foe'));
+        self::assertSame($object, $aliasBinding->get('foe'));
     }
 }

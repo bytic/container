@@ -1,17 +1,18 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Container\Tests\ServiceProviders;
 
 use Nip\Container\Container;
 use Nip\Container\ServiceProviders\ProviderRepository;
-use Nip\Container\Tests\AbstractTest;
+use Nip\Container\Tests\AbstractTestCase;
 use Nip\Container\Tests\Fixtures\DemoServiceProvider;
 
 /**
  * Class ProviderRepositoryTest
  * @package Nip\Container\Tests\ServiceProviders
  */
-class ProviderRepositoryTest extends AbstractTest
+class ProviderRepositoryTest extends AbstractTestCase
 {
     public function test_getProvider_not_exists()
     {
