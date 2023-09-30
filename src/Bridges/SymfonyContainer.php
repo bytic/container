@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace Nip\Container\Bridges;
 
 use Nip\Container\ServiceProviders\ServiceProviderAwareTrait;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 /**
  * Class LeagueContainer
@@ -22,6 +24,16 @@ abstract class SymfonyContainer implements BridgeInterface
     public function __construct()
     {
         $this->container = new ContainerBuilder();
+        $loader = new PhpFileLoader(
+            $this->container,
+            new FileLocator(
+                dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config'
+            )
+        );
+        $loader->load('services.php');
+//        $this->container->compile();
+//        $loader = new YamlFileLoader($this->container, new FileLocator(__DIR__));
+//        $this->container->autowire();
     }
 
     use ServiceProviderAwareTrait;
@@ -33,7 +45,15 @@ abstract class SymfonyContainer implements BridgeInterface
 
     public function alias($abstract, $alias)
     {
-        $this->setAlias($abstract, $alias);
+        if ($abstract === null) {
+            return;
+        }
+//        if (is_string($abstract)) {
+//            $abstract = function () use ($abstract) {
+//                return $this->get($abstract);
+//            };
+//        }
+        $this->container->setAlias($alias, $abstract);
     }
 
     public function remove($alias)
@@ -95,6 +115,12 @@ abstract class SymfonyContainer implements BridgeInterface
             return $this->container->getParameter($id);
         }
 
+        if (false === $this->container->has($id) && class_exists($id)) {
+            $definition = new Definition($id);
+            $definition->setAutowired(true);
+            $this->container->setDefinition($id, $definition);
+        }
+
         $return = $this->container->get($id, $invalidBehavior);
         if ($return instanceof \Closure) {
             $return = $return();
@@ -107,7 +133,9 @@ abstract class SymfonyContainer implements BridgeInterface
     {
         if (is_string($service)) {
             if (class_exists($service)) {
-                $this->container->setDefinition($id, new Definition($service));
+                $definition = new Definition($service);
+                $definition->setAutowired(true);
+                $this->container->setDefinition($id, $definition);
                 return;
             }
             $this->container->setParameter($id, $service);

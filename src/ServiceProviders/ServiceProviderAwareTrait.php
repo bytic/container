@@ -5,6 +5,8 @@ namespace Nip\Container\ServiceProviders;
 
 use Nip\Config\Config;
 use Nip\Container\Container;
+use Nip\Container\ContainerAwareTrait;
+use Nip\Utility\Oop;
 
 /**
  * Class ServiceProviderAwareTrait
@@ -35,7 +37,9 @@ trait ServiceProviderAwareTrait
     {
         if ($this->providerRepository === null) {
             $this->providerRepository = new ProviderRepository();
-            $this->providerRepository->setContainer($this);
+
+            $container = Oop::classUsesTrait($this, ContainerAwareTrait::class) ? $this->getContainer() : $this;
+            $this->providerRepository->setContainer($container);
         }
 
         return $this->providerRepository;
