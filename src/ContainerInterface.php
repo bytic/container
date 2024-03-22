@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface as PsrInterface;
  * Interface ContainerInterface
  * @package Nip\Container
  */
-interface ContainerInterface extends PsrInterface, ArrayAccess
+interface ContainerInterface extends ArrayAccess, \Symfony\Component\DependencyInjection\ContainerInterface
 {
 
     /**

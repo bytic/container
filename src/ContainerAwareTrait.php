@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Nip\Container;
 
+use Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface as PsrContainerInterface;
+
 /**
  * Class ContainerAwareTrait
  * @package Nip\Container
@@ -27,10 +30,10 @@ trait ContainerAwareTrait
     /**
      * Set a container.
      *
-     * @param \Nip\Container\ContainerInterface $container
+     * @param ContainerInterface $container
      * @return $this
      */
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(PsrContainerInterface $container)
     {
         $this->container = $container;
         return $this;

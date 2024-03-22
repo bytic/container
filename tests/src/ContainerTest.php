@@ -6,6 +6,7 @@ namespace Nip\Container\Tests;
 use Nip\Container\Container;
 use Nip\Container\Tests\Fixtures\DemoServiceProvider;
 use Nip\Container\Tests\Fixtures\ModulesService;
+use Nip\Container\Utility\BuildSymfonyContainer;
 
 /**
  * Class ContainerTest
@@ -80,7 +81,21 @@ class ContainerTest extends AbstractTestCase
     {
         $container = new Container();
         $container->addServiceProvider(DemoServiceProvider::class);
+        $container->compile();
+
         self::assertTrue($container->has(DemoServiceProvider::DUMMY_CONSTANT));
-        self::assertTrue($container->get(DemoServiceProvider::DUMMY_CONSTANT));
+        self::assertEquals('value', $container->get(DemoServiceProvider::DUMMY_CONSTANT));
+    }
+
+    public function test_service_with_compiled()
+    {
+        BuildSymfonyContainer::cache_clear();
+
+        $container = new Container();
+        $container->addServiceProvider(DemoServiceProvider::class);
+        $container->compile();
+
+        self::assertTrue($container->has(DemoServiceProvider::DUMMY_CONSTANT));
+        self::assertEquals('value', $container->get(DemoServiceProvider::DUMMY_CONSTANT));
     }
 }

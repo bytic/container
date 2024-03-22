@@ -8,6 +8,7 @@ use Nip\Container\ContainerAwareTrait;
 use Nip\Container\ServiceProviders\Providers\AbstractServiceProvider;
 use Nip\Container\ServiceProviders\Providers\BootableServiceProviderInterface;
 use Nip\Container\ServiceProviders\Providers\ServiceProviderInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class ServiceProviderAggregate
@@ -51,7 +52,7 @@ class ProviderRepository implements ProviderRepositoryInterface
             $provider = $this->resolveProvider($provider);
         }
 
-        if ($provider instanceof ContainerAwareInterface) {
+        if ($provider instanceof ContainerAwareInterface && $this->getContainer() instanceof ContainerInterface) {
             $provider->setContainer($this->getContainer());
         }
 
@@ -169,6 +170,13 @@ class ProviderRepository implements ProviderRepositoryInterface
             return true;
         }
         return false;
+    }
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+        foreach ($this->providers as $provider) {
+            $provider->setContainer($container);
+        }
     }
 
     /**

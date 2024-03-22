@@ -7,6 +7,7 @@ use Nip\Config\Config;
 use Nip\Container\Container;
 use Nip\Container\ContainerAwareTrait;
 use Nip\Utility\Oop;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class ServiceProviderAwareTrait
@@ -30,6 +31,11 @@ trait ServiceProviderAwareTrait
         }
     }
 
+    public function addServiceProvider($provider)
+    {
+        $this->getProviderRepository()->add($provider);
+    }
+
     /**
      * @return ProviderRepository
      */
@@ -39,7 +45,9 @@ trait ServiceProviderAwareTrait
             $this->providerRepository = new ProviderRepository();
 
             $container = Oop::classUsesTrait($this, ContainerAwareTrait::class) ? $this->getContainer() : $this;
-            $this->providerRepository->setContainer($container);
+            if ($container instanceof ContainerInterface) {
+                $this->providerRepository->setContainer($container);
+            }
         }
 
         return $this->providerRepository;

@@ -14,5 +14,4 @@ class Container extends SymfonyContainer implements ContainerInterface
 {
     use Traits\ContainerPersistenceTrait;
     use DeprecatedMethodsTrait;
-
 }

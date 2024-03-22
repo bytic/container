@@ -25,6 +25,6 @@ class DemoServiceProvider extends AbstractServiceProvider
 
     public function register()
     {
-        $this->container->set(self::DUMMY_CONSTANT, true);
+        $this->container->set(self::DUMMY_CONSTANT, 'value');
     }
 }

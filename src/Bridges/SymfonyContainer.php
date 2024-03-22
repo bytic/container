@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace Nip\Container\Bridges;
 
+use Closure;
 use Nip\Container\ServiceProviders\ServiceProviderAwareTrait;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Nip\Container\Utility\BuildSymfonyContainer;
+use Nip\Utility\Stringable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use UnitEnum;
 
 /**
  * Class LeagueContainer
@@ -16,27 +17,22 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
  */
 abstract class SymfonyContainer implements BridgeInterface
 {
+    use ServiceProviderAwareTrait;
+
     protected $container;
 
     /**
      * @param $container
      */
-    public function __construct()
+    public function __construct($container = null)
     {
-        $this->container = new ContainerBuilder();
-        $loader = new PhpFileLoader(
-            $this->container,
-            new FileLocator(
-                dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config'
-            )
-        );
-        $loader->load('services.php');
-//        $this->container->compile();
-//        $loader = new YamlFileLoader($this->container, new FileLocator(__DIR__));
-//        $this->container->autowire();
+        $this->container = $container ?? BuildSymfonyContainer::create();
     }
 
-    use ServiceProviderAwareTrait;
+    public function __call($name, $arguments)
+    {
+        return call_user_func_array([$this->container, $name], $arguments);
+    }
 
     public function share(string $alias, $concrete = null)
     {
@@ -59,12 +55,6 @@ abstract class SymfonyContainer implements BridgeInterface
     public function remove($alias)
     {
         $this->container->removeAlias($alias);
-        // TODO: Implement remove() method.
-    }
-
-    public function addServiceProvider($provider)
-    {
-        $this->getProviderRepository()->add($provider);
     }
 
     public function offsetExists(mixed $offset): bool
@@ -87,15 +77,18 @@ abstract class SymfonyContainer implements BridgeInterface
         // TODO: Implement offsetUnset() method.
     }
 
+    /**
+     * @inheritDoc
+     */
     public function has($id): bool
     {
         if ($this->container->hasParameter($id)) {
             return true;
         }
 
-        if ($this->getProviderRepository()->provides($id)) {
-            return true;
-        }
+//        if ($this->getProviderRepository()->provides($id)) {
+//            return true;
+//        }
 
         return $this->container->has($id);
     }
@@ -105,14 +98,18 @@ abstract class SymfonyContainer implements BridgeInterface
         $this->set($alias, $concrete);
     }
 
-    public function get(string $id, int $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE): mixed
+    public function get(string $id, int $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE): ?object
     {
-        if ($this->getProviderRepository()->provides($id)) {
-            $this->getProviderRepository()->register($id);
-        }
+//        if ($this->getProviderRepository()->provides($id)) {
+//            $this->getProviderRepository()->register($id);
+//        }
 
         if ($this->container->hasParameter($id)) {
-            return $this->container->getParameter($id);
+            $param = $this->container->getParameter($id);
+            if (is_string($param)) {
+                return new Stringable($param);
+            }
+            return $param;
         }
 
         if (false === $this->container->has($id) && class_exists($id)) {
@@ -122,7 +119,7 @@ abstract class SymfonyContainer implements BridgeInterface
         }
 
         $return = $this->container->get($id, $invalidBehavior);
-        if ($return instanceof \Closure) {
+        if ($return instanceof Closure) {
             $return = $return();
             $this->set($id, $return);
         }
@@ -146,5 +143,40 @@ abstract class SymfonyContainer implements BridgeInterface
             return;
         }
         $this->container->set($id, $service);
+    }
+
+    public function initialized(string $id): bool
+    {
+        return $this->container->initialized($id);
+    }
+
+    public function getParameter(string $name)
+    {
+        return $this->container->getParameter($name);
+    }
+
+    public function hasParameter(string $name): bool
+    {
+        return $this->container->hasParameter($name);
+    }
+
+    public function setParameter(string $name, UnitEnum|float|array|bool|int|string|null $value)
+    {
+        $this->container->setParameter($name, $value);
+    }
+
+    public function compile()
+    {
+        $this->registerProviders();
+        BuildSymfonyContainer::cache($this->container);
+    }
+
+    protected function registerProviders()
+    {
+        $this->registerConfiguredProviders();
+        $providers = $this->getProviderRepository()->getProviders();
+        foreach ($providers as $provider) {
+            $provider->register();
+        }
     }
 }
