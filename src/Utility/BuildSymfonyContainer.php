@@ -33,7 +33,6 @@ class BuildSymfonyContainer
     public static function cache($container, $isDebug = false)
     {
         $file = self::cache_file_path();
-        $container->compile();
 
         if (!$isDebug) {
             $dumper = new PhpDumper($container);

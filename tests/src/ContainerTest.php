@@ -81,19 +81,6 @@ class ContainerTest extends AbstractTestCase
     {
         $container = new Container();
         $container->addServiceProvider(DemoServiceProvider::class);
-        $container->compile();
-
-        self::assertTrue($container->has(DemoServiceProvider::DUMMY_CONSTANT));
-        self::assertEquals('value', $container->get(DemoServiceProvider::DUMMY_CONSTANT));
-    }
-
-    public function test_service_with_compiled()
-    {
-        BuildSymfonyContainer::cache_clear();
-
-        $container = new Container();
-        $container->addServiceProvider(DemoServiceProvider::class);
-        $container->compile();
 
         self::assertTrue($container->has(DemoServiceProvider::DUMMY_CONSTANT));
         self::assertEquals('value', $container->get(DemoServiceProvider::DUMMY_CONSTANT));

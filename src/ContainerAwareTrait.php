@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Nip\Container;
 
+use Nip\Container\ServiceProviders\ServiceProviderAwareTrait;
+use Nip\Utility\Oop;
 use Psr\Container\ContainerInterface;
 use Psr\Container\ContainerInterface as PsrContainerInterface;
 
@@ -22,7 +24,7 @@ trait ContainerAwareTrait
      *
      * @return ContainerInterface|Container
      */
-    public function getContainer()
+    public function getContainer(): PsrContainerInterface|Container
     {
         return $this->container;
     }
@@ -47,6 +49,9 @@ trait ContainerAwareTrait
         } else {
             $this->container = $this->newContainer();
             Container::setInstance($this->container);
+        }
+        if (Oop::classUsesTrait($this, ServiceProviderAwareTrait::class)) {
+            $this->container->setProviderRepository($this->getProviderRepository());
         }
     }
 

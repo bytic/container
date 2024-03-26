@@ -171,6 +171,7 @@ class ProviderRepository implements ProviderRepositoryInterface
         }
         return false;
     }
+
     public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;

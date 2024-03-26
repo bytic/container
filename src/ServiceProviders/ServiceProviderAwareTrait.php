@@ -22,12 +22,14 @@ trait ServiceProviderAwareTrait
      */
     protected $providerRepository = null;
 
+    protected array|null $configuredProviders = null;
+
     public function registerConfiguredProviders()
     {
         $providers = $this->getConfiguredProviders();
         foreach ($providers as $provider) {
             $this->getProviderRepository()->add($provider);
-            $this->getProviderRepository()->registerProvider($provider);
+//            $this->getProviderRepository()->registerProvider($provider);
         }
     }
 
@@ -53,12 +55,25 @@ trait ServiceProviderAwareTrait
         return $this->providerRepository;
     }
 
+    public function setProviderRepository(?ProviderRepository $providerRepository): void
+    {
+        $this->providerRepository = $providerRepository;
+    }
+
     /**
      * @return array
      */
     public function getConfiguredProviders()
     {
-        return $this->getConfigProvidersValue($this->getGenericProviders());
+        if ($this->configuredProviders === null) {
+            $this->configuredProviders = $this->getConfigProvidersValue($this->getGenericProviders());
+        }
+        return $this->configuredProviders;
+    }
+
+    public function setConfiguredProviders(?array $configuredProviders): void
+    {
+        $this->configuredProviders = $configuredProviders;
     }
 
     /**
