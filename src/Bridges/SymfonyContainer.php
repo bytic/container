@@ -10,13 +10,14 @@ use Nip\Utility\Stringable;
 use Ramsey\Collection\GenericArray;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use UnitEnum;
 
 /**
  * Class LeagueContainer
  * @package Nip\Container\Bridges
  */
-abstract class SymfonyContainer
+abstract class SymfonyContainer implements  \Symfony\Component\DependencyInjection\ContainerInterface
 {
 
     protected $symfonyContainer;
@@ -36,11 +37,21 @@ abstract class SymfonyContainer
         $this->symfonyContainer = $container;
     }
 
-    public function share(string $alias, $concrete = null)
+    /**
+     * @param string $alias
+     * @param $concrete
+     * @return void
+     */
+    public function share(string $alias, $concrete = null): void
     {
         $this->set($alias, $concrete);
     }
 
+    /**
+     * @param $abstract
+     * @param $alias
+     * @return void
+     */
     public function alias($abstract, $alias)
     {
         if ($abstract === null) {
@@ -78,6 +89,12 @@ abstract class SymfonyContainer
         return $this->symfonyContainer->has($id);
     }
 
+    /**
+     * @param $alias
+     * @param $concrete
+     * @param $shared
+     * @return void
+     */
     public function add($alias, $concrete = null, $shared = false)
     {
         $this->set($alias, $concrete);
@@ -98,7 +115,7 @@ abstract class SymfonyContainer
         return $this->wrapResult($return);
     }
 
-    public function set(string $id, mixed $service)
+    public function set(string $id, mixed $service): void
     {
         if (is_string($service)) {
             if (class_exists($service)) {
@@ -128,7 +145,10 @@ abstract class SymfonyContainer
         return $this->symfonyContainer->initialized($id);
     }
 
-    public function getParameter(string $name)
+    /**
+     * @inheritDoc
+     */
+    public function getParameter(string $name): UnitEnum|float|array|bool|int|string|null
     {
         return $this->symfonyContainer->getParameter($name);
     }
@@ -138,7 +158,7 @@ abstract class SymfonyContainer
         return $this->symfonyContainer->hasParameter($name);
     }
 
-    public function setParameter(string $name, UnitEnum|float|array|bool|int|string|null $value)
+    public function setParameter(string $name, UnitEnum|float|array|bool|int|string|null $value): void
     {
         $this->symfonyContainer->setParameter($name, $value);
     }
@@ -159,6 +179,10 @@ abstract class SymfonyContainer
         }
     }
 
+    /**
+     * @param $result
+     * @return Stringable|GenericArray
+     */
     protected function wrapResult($result)
     {
         if (is_string($result)) {

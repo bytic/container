@@ -22,6 +22,7 @@ class ReflectionContainerTest extends TestCase
         $container = new ReflectionContainer();
         $container->get('Whoooo');
     }
+
     public function testGetInstantiatesClassWithConstructorAndUsesContainer(): void
     {
         $classWithConstructor = ObjectHasConstructor::class;
@@ -39,6 +40,7 @@ class ReflectionContainerTest extends TestCase
         self::assertInstanceOf($classWithConstructor, $item);
         self::assertSame($dependency, $item->modulesService);
     }
+
     private function getContainerMock(array $items = []): Container
     {
         $container = $this->getMockBuilder(Container::class)->getMock();

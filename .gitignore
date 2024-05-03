@@ -1,4 +1,5 @@
 .idea/workspace.xml
+.phpunit.cache/
 .phpunit.result.cache
 
 tests/_output/*

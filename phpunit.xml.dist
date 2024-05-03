@@ -1,32 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-         backupGlobals="false"
-         backupStaticAttributes="false"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         bootstrap="tests/bootstrap.php"
-         failOnRisky="true"
-         failOnWarning="true"
-         stopOnError="false"
-         stopOnFailure="false"
-         verbose="true">
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">./src</directory>
-    </include>
-    <exclude>
-      <directory>./src/locale/data</directory>
-    </exclude>
-  </coverage>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="tests/bootstrap.php" failOnRisky="true" failOnWarning="true" stopOnError="false" stopOnFailure="false" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
   <testsuites>
     <testsuite name="ByTIC Container Test Suite">
       <directory suffix="Test.php">./tests/src</directory>
     </testsuite>
   </testsuites>
-
   <!-- Filter for coverage reports. -->
   <php>
     <ini name="error_reporting" value="-1"/>
@@ -38,4 +16,12 @@
         <env name="REDIS_PORT" value="6379" />
         -->
   </php>
+  <source>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+    <exclude>
+      <directory>./src/locale/data</directory>
+    </exclude>
+  </source>
 </phpunit>

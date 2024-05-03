@@ -33,7 +33,7 @@
     "symfony/dependency-injection": "^5.3|^6.0|^7.0"
   },
   "require-dev": {
-    "bytic/config": "^0.9|^1.0",
+    "bytic/config": "^0.9|^1.0|^2.0",
     "bytic/utility": "^1.0",
     "bytic/phpqatools": "^1.0"
   },
