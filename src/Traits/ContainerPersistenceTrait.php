@@ -37,7 +37,7 @@ trait ContainerPersistenceTrait
      * @param  ContainerInterface|null $container
      * @return null|ContainerInterface
      */
-    public static function setInstance(ContainerInterface $container = null)
+    public static function setInstance(?ContainerInterface $container = null)
     {
         return static::$instance = $container;
     }

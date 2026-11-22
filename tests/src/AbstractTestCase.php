@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Nip\Container\Tests;
 
-use Bytic\Phpqa\PHPUnit\TestCase;
 use Mockery;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Nip\Container\Container;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class AbstractTest

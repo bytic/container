@@ -50,6 +50,6 @@ trait BaseMethodsTrait
 
     public function remove($alias)
     {
-        $this->symfonyContainer->removeAlias($alias);
+        parent::remove($alias);
     }
 }

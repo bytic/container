@@ -30,12 +30,16 @@
   },
   "require": {
     "php": "^8.1",
-    "symfony/dependency-injection": "^5.3|^6.0|^7.0"
+    "bytic/utility": "^1.0",
+    "psr/container": "^1.1|^2.0",
+    "ramsey/collection": "^1.2|^2.0",
+    "symfony/config": "^5.3|^6.0|^7.0|^8.0",
+    "symfony/dependency-injection": "^5.3|^6.0|^7.0|^8.0"
   },
   "require-dev": {
     "bytic/config": "^0.9|^1.0|^2.0",
-    "bytic/utility": "^1.0",
-    "bytic/phpqatools": "^1.0"
+    "mockery/mockery": "^1.6",
+    "phpunit/phpunit": "^10.5"
   },
   "prefer-stable": true,
   "minimum-stability": "dev",

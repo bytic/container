@@ -8,6 +8,7 @@ use Nip\Container\ServiceProviders\ServiceProviderAwareTrait;
 use Nip\Container\Utility\BuildSymfonyContainer;
 use Nip\Utility\Stringable;
 use Ramsey\Collection\GenericArray;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
@@ -22,9 +23,9 @@ abstract class SymfonyContainer implements  \Symfony\Component\DependencyInjecti
 
     protected $symfonyContainer;
 
-    public function __construct()
+    public function __construct(?ContainerInterface $container = null)
     {
-        $this->symfonyContainer = BuildSymfonyContainer::create();
+        $this->symfonyContainer = $container ?? BuildSymfonyContainer::create();
     }
 
     public function __call($name, $arguments)
@@ -35,6 +36,11 @@ abstract class SymfonyContainer implements  \Symfony\Component\DependencyInjecti
     public function setSymfonyContainer(ContainerInterface $container): void
     {
         $this->symfonyContainer = $container;
+    }
+
+    public function getSymfonyContainer(): ContainerInterface
+    {
+        return $this->symfonyContainer;
     }
 
     /**
@@ -57,7 +63,7 @@ abstract class SymfonyContainer implements  \Symfony\Component\DependencyInjecti
         if ($abstract === null) {
             return;
         }
-        if ($this->symfonyContainer->isCompiled()) {
+        if (!$this->symfonyContainer instanceof ContainerBuilder || $this->symfonyContainer->isCompiled()) {
             $abstract = function () use ($abstract) {
                 return $this->get($abstract);
             };
@@ -74,6 +80,11 @@ abstract class SymfonyContainer implements  \Symfony\Component\DependencyInjecti
 
     public function remove($alias)
     {
+        if (!$this->symfonyContainer instanceof ContainerBuilder) {
+            $this->symfonyContainer->set($alias, null);
+            return;
+        }
+
         $this->symfonyContainer->removeAlias($alias);
     }
 
@@ -119,7 +130,7 @@ abstract class SymfonyContainer implements  \Symfony\Component\DependencyInjecti
     {
         if (is_string($service)) {
             if (class_exists($service)) {
-                if ($this->symfonyContainer->isCompiled()) {
+                if (!$this->symfonyContainer instanceof ContainerBuilder || $this->symfonyContainer->isCompiled()) {
                     $abstract = function () use ($service) {
                         return $this->get($service);
                     };
@@ -158,7 +169,7 @@ abstract class SymfonyContainer implements  \Symfony\Component\DependencyInjecti
         return $this->symfonyContainer->hasParameter($name);
     }
 
-    public function setParameter(string $name, UnitEnum|float|array|bool|int|string|null $value): void
+    public function setParameter(string $name, $value): void
     {
         $this->symfonyContainer->setParameter($name, $value);
     }
