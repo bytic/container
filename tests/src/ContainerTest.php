@@ -7,6 +7,9 @@ use Nip\Container\Container;
 use Nip\Container\Tests\Fixtures\DemoServiceProvider;
 use Nip\Container\Tests\Fixtures\ModulesService;
 use Nip\Container\Utility\BuildSymfonyContainer;
+use Symfony\Component\DependencyInjection\Container as NativeContainer;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Class ContainerTest
@@ -14,6 +17,54 @@ use Nip\Container\Utility\BuildSymfonyContainer;
  */
 class ContainerTest extends AbstractTestCase
 {
+    public function testSymfonyBuilderCanBeConfiguredAndCompiledDirectly(): void
+    {
+        $builder = new ContainerBuilder();
+        $container = new Container($builder);
+        self::assertSame($builder, $container->getSymfonyContainer());
+
+        $builder->register(ModulesService::class, ModulesService::class)->setPublic(true);
+        $builder->register(Fixtures\ObjectHasConstructor::class, Fixtures\ObjectHasConstructor::class)
+            ->setArgument('$modulesService', new Reference(ModulesService::class))
+            ->setPublic(true);
+        $builder->setAlias('modules', ModulesService::class)->setPublic(true);
+        $builder->setParameter('example', 'value');
+        $builder->compile();
+
+        self::assertSame($builder->get(ModulesService::class), $container->get('modules'));
+        self::assertSame($container->get('modules'), $container->get(Fixtures\ObjectHasConstructor::class)->modulesService);
+        self::assertSame('value', $container->getParameter('example'));
+        $container->addServiceProvider(DemoServiceProvider::class);
+        self::assertEquals('value', $container->get(DemoServiceProvider::DUMMY_CONSTANT));
+    }
+
+    public function testNativeContainerAndLegacyAliasesCanBeUsedTogether(): void
+    {
+        $native = new NativeContainer();
+        $container = new Container($native);
+        $native->set('native', $service = new \stdClass());
+
+        $container->alias('native', 'legacy-alias');
+        $container->set('class-service', ModulesService::class);
+
+        self::assertSame($service, $container->get('legacy-alias'));
+        self::assertInstanceOf(ModulesService::class, $container->get('class-service'));
+        self::assertSame($native, $container->getSymfonyContainer());
+        $container->remove('legacy-alias');
+        self::assertFalse($container->has('legacy-alias'));
+        self::assertSame($service, $container->get('native'));
+    }
+
+    public function testSymfonyContainerCanStillBeReplaced(): void
+    {
+        $container = new Container();
+        $native = new NativeContainer();
+        $native->set('native', $service = new \stdClass());
+        $container->setSymfonyContainer($native);
+
+        self::assertSame($native, $container->getSymfonyContainer());
+        self::assertSame($service, $container->get('native'));
+    }
 
     public function testSetsAndGetServiceShared()
     {
